@@ -54,7 +54,7 @@ class X2C(lib.StreamObject):
     def get_xmol(self, mol=None):
         if mol is None:
             mol = self.mol
-
+        # self.basis is not mol.basis!
         if self.basis is not None:
             xmol = copy.copy(mol)
             xmol.build(False, False, basis=self.basis)
