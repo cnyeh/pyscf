@@ -163,6 +163,20 @@ def eval_mat(mol, ao, weight, rho, vxc,
 
 def r_vxc(ni, mol, grids, xc_code, dms, spin=0, relativity=0, hermi=1,
           max_memory=2000, verbose=None):
+    '''
+    Relativistic Vxc from given dms
+    :param ni:
+    :param mol:
+    :param grids:
+    :param xc_code:
+    :param dms:
+    :param spin:
+    :param relativity:
+    :param hermi:
+    :param max_memory:
+    :param verbose:
+    :return:
+    '''
     xctype = ni._xc_type(xc_code)
     shls_slice = (0, mol.nbas)
     ao_loc = mol.ao_loc_2c()
@@ -179,6 +193,7 @@ def r_vxc(ni, mol, grids, xc_code, dms, spin=0, relativity=0, hermi=1,
         for ao, mask, weight, coords \
                 in ni.block_loop(mol, grids, nao, 0, with_s, max_memory):
             for idm in range(nset):
+                # rho, m = make_rho(...).  rho(dm_aa, dm_bb) while m(dm_ab, dm_ba)
                 rho = make_rho(idm, ao, mask, xctype)
                 exc, vxc = ni.eval_xc(xc_code, rho, spin=1,
                                       relativity=relativity, deriv=1,
