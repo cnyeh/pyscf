@@ -57,18 +57,17 @@ def get_jk(mf, cell=None, dm_kpts=None, hermi=0, kpts=None, kpts_band=None,
 
     j1, k1 = mf.with_df.get_jk(dms, hermi, kpts, kpts_band, with_j, with_k,
                                exxdiv=mf.exxdiv)
+    # j1 = (j1_aa, j1_bb, j1_ab), k1 = (k1_aa, k1_bb, k1_ab)
+    j1 = j1.reshape(3,n_dm,nband,nao,nao)
+    k1 = k1.reshape(3,n_dm,nband,nao,nao)
 
     vj = vk = None
     if with_j:
-        # j1 = (j1_aa, j1_bb, j1_ab)
-        j1 = j1.reshape(3, n_dm, nband, nao, nao)
         vj = np.zeros((n_dm,nband,nso,nso), j1.dtype)
         vj[:,:,:nao,:nao] = vj[:,:,nao:,nao:] = j1[0] + j1[1]
         vj = _format_jks(vj, dm_kpts, kpts_band, kpts)
 
     if with_k:
-        # k1 = (k1_aa, k1_bb, k1_ab)
-        k1 = k1.reshape(3, n_dm, nband, nao, nao)
         vk = np.zeros((n_dm,nband,nso,nso), k1.dtype)
         vk[:,:,:nao,:nao] = k1[0]
         vk[:,:,nao:,nao:] = k1[1]
