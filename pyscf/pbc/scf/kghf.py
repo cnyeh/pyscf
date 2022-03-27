@@ -194,6 +194,7 @@ class KGHF(pbcghf.GHF, khf.KSCF):
         return self
 
     density_fit = khf.KSCF.density_fit
+    rs_density_fit = khf.KSCF.rs_density_fit
     newton = khf.KSCF.newton
 
     def x2c1e(self):
