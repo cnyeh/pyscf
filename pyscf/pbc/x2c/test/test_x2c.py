@@ -75,6 +75,15 @@ class KnownValues(unittest.TestCase):
             mf.with_df = df.AFTDF(cell)
             dm = mf.get_init_guess()
             h1 = mf.get_hcore()
+            self.assertAlmostEqual(numpy.einsum('ij,ji', dm, h1), -0.20522508213548604 + 0j, 8)
+            kpts = cell.make_kpts([3, 1, 1])
+            h1 = mf.get_hcore(kpt=kpts[1])
+            self.assertAlmostEqual(numpy.einsum('ij,ji', dm, h1), -0.004971818990083491 + 0j, 8)
+            e = mf.kernel()
+            self.assertAlmostEqual(e, -1.701698627990108, 8)
+
+            mf.with_x2c.approx = 'ATOM1E'
+            h1 = mf.get_hcore()
             self.assertAlmostEqual(numpy.einsum('ij,ji', dm, h1), -0.2458227312351979+0j, 8)
             kpts = cell.make_kpts([3,1,1])
             h1 = mf.get_hcore(kpt=kpts[1])
