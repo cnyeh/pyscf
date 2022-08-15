@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 
 '''
-X2C1e Hartree-Fock/DFT with k-points sampling for all-electron 
-calculations. 
-
-Currently, X2C1e can only be solved in the spin-orbital GTO basis. 
-The spinor basis version has not yet been implemented. 
+X2C1e Hartree-Fock/DFT with k-points sampling for all-electron calculations.
 '''
 
 import numpy as np
@@ -30,7 +26,7 @@ kpts = cell.make_kpts(nk)
 
 #
 # Spin-free x2c1e (sfx2c1e) HF/DFT
-# Only the scalar relativistic effects are included. 
+# Only the scalar relativistic effects are included.
 #
 mf = scf.KRHF(cell, kpts).density_fit().sfx2c1e()
 mf.kernel()
